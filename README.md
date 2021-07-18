@@ -17,6 +17,7 @@ mvn io.quarkus:quarkus-maven-plugin:create \
 Adding extensions to the project:
 ```
 mvn quarkus:add-extension -Dextensions="quarkus-smallrye-openapi"
+mvn quarkus:add-extension -Dextensions="quarkus-hibernate-orm-panache, jdbc-mysql, resteasy-jsonb"
 ```
 
 Run in development mode:
@@ -29,3 +30,9 @@ To list all avaiable extensions:
 mvn quarkus:list-extensions
 ```
 
+Available endpoints:
+* GET - /api/todolist
+* POST - /api/todolist
+* PUT - /api/todolist/{id}
+* DELETE - /api/todolist/{id}
+* GET - /api/todolist/envvars
