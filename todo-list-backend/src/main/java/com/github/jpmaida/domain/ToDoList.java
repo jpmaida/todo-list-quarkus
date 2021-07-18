@@ -5,9 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import com.github.jpmaida.infra.IdGenerator;
 
+@ApplicationScoped
 public class ToDoList {
+
     private static Map<Long, ToDo> toDoList;
 
     public ToDoList() {

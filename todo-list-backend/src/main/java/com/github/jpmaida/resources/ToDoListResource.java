@@ -2,6 +2,7 @@ package com.github.jpmaida.resources;
 
 import java.util.List;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -17,21 +18,17 @@ import javax.ws.rs.core.Response.Status;
 import com.github.jpmaida.domain.ToDo;
 import com.github.jpmaida.domain.ToDoList;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+@RequestScoped
 @Path("/api/todolist")
 public class ToDoListResource {
 
-    @Inject private ToDoList toDoList;
-    private boolean isEditable = true;
-
-    // @GET
-    // @Produces(MediaType.TEXT_PLAIN)
-    // public String hello() {
-    //     return "Hello RESTEasy";
-    // }
-
-    // public ToDoListResource(ToDoList toDoList) {
-    //     this.toDoList = toDoList;
-    // }
+    @Inject 
+    private ToDoList toDoList;
+    
+    @ConfigProperty(name = "is.editable")
+    private boolean isEditable;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -58,10 +55,8 @@ public class ToDoListResource {
     public Response edit(@PathParam("id") Long id, ToDo alteredToDo){
         if(isEditable) {
             ToDo olderToDo = this.toDoList.replace(id, alteredToDo);
-            // return new ResponseEntity<>(olderToDo, HttpStatus.OK);
             return Response.ok(olderToDo).build();
         } else {
-            // return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             return Response.status(Status.BAD_REQUEST).build();
         }
     }
@@ -73,10 +68,9 @@ public class ToDoListResource {
         return Response.status(Status.NO_CONTENT).build();
     }
 
-    /*
-    @GetMapping("/envvars")
-    String printEnvVars(){
+    @GET
+    @Path("/envvars")
+    public String printEnvVars(){
         return "TODO_LIST_EDITABLE: " + this.isEditable;
     }
-    */
 }
