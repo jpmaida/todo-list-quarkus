@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -19,6 +21,7 @@ import com.github.jpmaida.domain.ToDo;
 import com.github.jpmaida.domain.ToDoList;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.hibernate.query.criteria.internal.CriteriaQueryImpl;
 
 @RequestScoped
 @Path("/api/todolist")
@@ -30,10 +33,14 @@ public class ToDoListResource {
     @ConfigProperty(name = "is.editable")
     private boolean isEditable;
 
+    @Inject
+    EntityManager em;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<ToDo> all(){
-        return this.toDoList.getList();
+        //TODO: Melhorar uso de query
+        return this.em.createQuery("from ToDo", ToDo.class).getResultList();
     }
 
     @GET

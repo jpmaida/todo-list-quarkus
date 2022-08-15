@@ -1,10 +1,26 @@
 package com.github.jpmaida.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.github.jpmaida.infra.IdGenerator;
 
+@Entity
+@Table(name = "to_do")
 public class ToDo {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(length = 100)
     private String description;
+    
+    @Column
     private boolean isDone;
 
     public ToDo(){}
